@@ -4,6 +4,24 @@
 	  <div>
 		  <div>
 			  <label class="typo__label" for="ajax">Async multiselect</label>
+			  <!--<multiselect-->
+				  <!--v-model="value"-->
+				  <!--id="ajax"-->
+				  <!--label="name"-->
+				  <!--track-by="code"-->
+				  <!--placeholder="Type to search"-->
+				  <!--open-direction="bottom"-->
+				  <!--:options="options"-->
+				  <!--:searchable="true"-->
+				  <!--:loading="isLoading"-->
+				  <!--:internal-search="true"-->
+				  <!--:close-on-select="true"-->
+				  <!--:show-no-results="true"-->
+			  <!--&gt;-->
+				  <!--<template slot="clear" slot-scope="props">-->
+					  <!--<div class="multiselect__clear"></div>-->
+				  <!--</template><span slot="noResult">Oops! No elements found. Consider changing the search query.</span>-->
+			  <!--</multiselect>-->
 			  <multiselect
 				  v-model="value"
 				  id="ajax"
@@ -16,6 +34,7 @@
 				  :loading="isLoading" :internal-search="false"
 				  :close-on-select="true"
 				  :show-no-results="true"
+				  @input="show"
 				  @search-change="find">
 				  <template slot="clear" slot-scope="props">
 					  <div class="multiselect__clear"></div>
@@ -24,17 +43,6 @@
 			  <pre class="language-json"><code>{{ value  }}</code></pre>
 		  </div>
 	  </div>
-
-	  <div v-if="showModal" class="modal">
-		  <div class="modal-background"></div>
-		  <div class="modal-content">
-			  you have updated the table
-			  <!-- Any other Bulma elements you want -->
-		  </div>
-		  <button @click="showModal = false" class="modal-close is-large" aria-label="close"></button>
-	  </div>
-
-	  <button @click="showModal = true">Click</button>
 
     <!--<v-popover-->
       <!--offset="16"-->
@@ -79,7 +87,10 @@ export default {
 		        { name: 'Ceramic Engineer' }, { name: 'Materials Engineer' },
 		        { name: 'Chemical Engineer' }, { name: 'Civil Engineer' },
 		        { name: 'Computer Engineer' }, { name: 'Environmental Engineer' },
-		        { name: 'Electrical Engineer' }, { name: 'Geological Engineer' }
+		        { name: 'Electrical Engineer' }, { name: 'Geological Engineer' },
+		        { name: 'Underwriter' }, { name: 'Sound Engineer' },
+		        { name: 'Driver' }, { name: 'Bus Driver' },
+		        { name: 'Electrical Electrician' }, { name: 'Insurance Underwriter' },
 	        ],
 	        selectedOptions: [],
 	        query: ''
@@ -93,17 +104,52 @@ export default {
 				var ops = this.options
 				var filtered = []
 				ops.forEach(item => {
-					console.log(item);
-					if (item.name.startsWith(this.query)) {
-						filtered.push(item)
-						console.log(item)
+
+					// split each string into an array
+					// check each item in the array
+					// if the search query matches any of the beginning return the item
+					const splicedItem = item.name.toLowerCase().split(" ");
+					console.log(splicedItem);
+
+					for (var word of splicedItem) {
+						if (word.startsWith(this.query.toLowerCase())) {
+							filtered.push(item)
+							console.log(item)
+							break;
+						}
 					}
+
+
+
+					// if (item.name.toLowerCase().startsWith(this.query.toLowerCase())) {
+					// 	filtered.push(item)
+					// 	console.log(item)
+					// }
 				});
 				return filtered
 			}
 		}
+		// filterOptions() {
+		// 	if (this.query === '') {
+		// 		return this.options
+		// 	} else {
+		// 		var ops = this.options
+		// 		var filtered = []
+		// 		ops.forEach(item => {
+		// 			console.log(item);
+		// 			if (item.name.toLowerCase().startsWith(this.query.toLowerCase())) {
+		// 				filtered.push(item)
+		// 				console.log(item)
+		// 			}
+		// 		});
+		// 		return filtered
+		// 	}
+		// }
 	},
 	methods: {
+    show(val) {
+      console.log(val);
+    },
 		find(value) {
   	    	this.query = value
 		},
