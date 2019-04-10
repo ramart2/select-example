@@ -1,9 +1,12 @@
 <template>
   <div id="app">
 
-	  <div>
-		  <div>
-			  <label class="typo__label" for="ajax">Async multiselect</label>
+    <HelloWorld ref="childComponent" />
+    <button @click="sayHello">Say hello in the child component</button>
+
+	  <!-- <div style="margin-top: 25%;"> -->
+		  <!-- <div> -->
+			  <!-- <label class="typo__label" for="ajax">Async multiselect</label> -->
 			  <!--<multiselect-->
 				  <!--v-model="value"-->
 				  <!--id="ajax"-->
@@ -22,7 +25,7 @@
 					  <!--<div class="multiselect__clear"></div>-->
 				  <!--</template><span slot="noResult">Oops! No elements found. Consider changing the search query.</span>-->
 			  <!--</multiselect>-->
-			  <multiselect
+			  <!-- <multiselect
 				  v-model="value"
 				  id="ajax"
 				  label="name"
@@ -41,8 +44,8 @@
 				  </template><span slot="noResult">Oops! No elements found. Consider changing the search query.</span>
 			  </multiselect>
 			  <pre class="language-json"><code>{{ value  }}</code></pre>
-		  </div>
-	  </div>
+		  </div> -->
+	  <!-- </div> -->
 
     <!--<v-popover-->
       <!--offset="16"-->
@@ -101,8 +104,10 @@ export default {
 			if (this.query === '') {
 				return this.options
 			} else {
-				var ops = this.options
-				var filtered = []
+				var ops = this.options;
+				var filtered = [];
+				var query = this.query.toLowerCase();
+
 				ops.forEach(item => {
 
 					// split each string into an array
@@ -112,7 +117,7 @@ export default {
 					console.log(splicedItem);
 
 					for (var word of splicedItem) {
-						if (word.startsWith(this.query.toLowerCase())) {
+						if (word.startsWith(query)) {
 							filtered.push(item)
 							console.log(item)
 							break;
@@ -147,6 +152,9 @@ export default {
 		// }
 	},
 	methods: {
+    sayHello() {
+      this.$refs.childComponent.sayHello();
+    },
     show(val) {
       console.log(val);
     },
