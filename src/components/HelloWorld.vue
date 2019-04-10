@@ -44,6 +44,8 @@ export default {
     sayHello() {
       console.log('Hello from the child!');
       this.message = 'Hello world'
+
+      this.$emit('done', 'Child is done!')
     }
   }
 }

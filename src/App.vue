@@ -1,7 +1,8 @@
 <template>
   <div id="app">
+    {{ message }}
 
-    <HelloWorld ref="childComponent" />
+    <HelloWorld ref="childComponent" @done="message = 'Child has finished'" />
     <button @click="sayHello">Say hello in the child component</button>
 
 	  <!-- <div style="margin-top: 25%;"> -->
@@ -79,6 +80,7 @@ export default {
   },
 	data() {
         return {
+          message: '',
         	showModal: false,
             value: null,
 	        isLoading: false,
