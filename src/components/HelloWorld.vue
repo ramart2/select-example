@@ -45,7 +45,11 @@ export default {
       console.log('Hello from the child!');
       this.message = 'Hello world'
 
+    store.dispatch('actionA').then(() => {
+      // tell the parent you're done
       this.$emit('done', 'Child is done!')
+    })
+      
     }
   }
 }
